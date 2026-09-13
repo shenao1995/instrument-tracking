@@ -1,0 +1,15 @@
+.venv/
+.reference/
+.tools/
+__pycache__/
+.pytest_cache/
+.idea/
+data/
+runs/
+*.pt
+*.tmp
+
+# Excluded from source distribution
+tests/
+*pycache*/
+*.py[cod]

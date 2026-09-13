@@ -1,0 +1,5 @@
+# Build helpers for setup_nvdiffrast_windows.py (runtime uses requirements.txt).
+setuptools>=64
+wheel
+ninja>=1.11
+zstandard>=0.22

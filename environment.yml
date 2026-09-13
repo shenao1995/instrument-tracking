@@ -1,0 +1,7 @@
+# Install CUDA PyTorch and remaining packages after activation; see README.md.
+name: instrument-tracking
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
