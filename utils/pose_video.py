@@ -7,8 +7,8 @@ import cv2
 import numpy as np
 import torch
 
-from pose_geometry import axis_rotation, vector_pose, part_transforms, PARTS
-from pose_data import natural_key, read_mask
+from utils.pose_geometry import axis_rotation, vector_pose, part_transforms, PARTS
+from utils.pose_data import natural_key, read_mask
 
 
 def continuous_pose(times, base, k, size, min_depth, max_depth, rotation_degrees=5., seed=2026):

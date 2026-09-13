@@ -6,7 +6,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
-from pose_geometry import (detach_pose, matrix_to_rotation_6d, pose_vector,
+from utils.pose_geometry import (detach_pose, matrix_to_rotation_6d, pose_vector,
                            rotation_6d_to_matrix)
 
 

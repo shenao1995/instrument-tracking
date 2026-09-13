@@ -4,7 +4,7 @@ from __future__ import annotations
 import torch
 import torch.nn.functional as F
 
-from pose_tip_labels import extract_gripper_tips
+from utils.pose_tip_labels import extract_gripper_tips
 
 
 def soft_mask_loss(pred, target):

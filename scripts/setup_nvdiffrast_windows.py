@@ -18,7 +18,7 @@ import tarfile
 import zipfile
 from urllib.request import Request, urlopen
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 TOOLS = ROOT/".tools"
 CACHE = TOOLS/"cache"
 NVDIFFRAST_COMMIT = "253ac4fcea7de5f396371124af597e6cc957bfae"

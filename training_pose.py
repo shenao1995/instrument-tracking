@@ -11,12 +11,12 @@ import torch
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 
-from pose_geometry import ROOT, InstrumentMesh, SemanticRenderer
-from poseNet import PoseNet, predict_stages
-from pose_data import SyntheticDataset, seed_everything, to_device
-from pose_losses import part_dice, part_iou, total_loss, tip_metrics
-from pose_tip_labels import prepare_tip_cache, TIP_LABEL_VERSION
-from pose_visualization import validation_images
+from utils.pose_geometry import ROOT, InstrumentMesh, SemanticRenderer
+from network.poseNet import PoseNet, predict_stages
+from utils.pose_data import SyntheticDataset, seed_everything, to_device
+from network.pose_losses import part_dice, part_iou, total_loss, tip_metrics
+from utils.pose_tip_labels import prepare_tip_cache, TIP_LABEL_VERSION
+from utils.pose_visualization import validation_images
 
 PART_NAMES = ("shaft", "wrist", "grippers")
 LOSS_NAMES = ("rgb", "mask", "tips")

@@ -1,6 +1,6 @@
 # 器械位姿预测的 OBJ 渲染器选型
 
-本文记录 v3 mask 阶段的渲染器选型。当前 RGB 配对训练已增加材质渲染及 RGB loss，并按用户要求取消 pose 真值监督；最新损失、训练命令和验证以 [README.md](README.md) 与 [RGB_TRAINING_VALIDATION.md](RGB_TRAINING_VALIDATION.md) 为准。
+本文记录 v3 mask 阶段的渲染器选型。当前 RGB 配对训练已增加材质渲染及 RGB loss，并按用户要求取消 pose 真值监督；最新损失、训练命令和验证以 [README.md](../README.md) 与 [RGB_TRAINING_VALIDATION.md](RGB_TRAINING_VALIDATION.md) 为准。
 
 调研与实现日期：2026-09-12。目标是保留 `mask loss → 投影 → FK → 位姿网络` 的梯度，并提高 NVIDIA GPU 上多标签 mask 的渲染速度。
 
@@ -8,7 +8,7 @@
 
 本项目选择 **NVIDIA nvdiffrast 的 CUDA 后端，搭配可微抗锯齿和默认 2× 超采样**。默认保留提供的原始 OBJ 网格，先做重复顶点/重复面/退化面清理，不再默认简化成约一万个三角面。自写 torch 后端保留为显式选择的参考实现，训练、推理、数据生成的默认路径均已切换。
 
-这是结合本项目硬件、mask 输出和梯度要求作出的工程选择。没有在同一环境安装并实测所有候选库，因此不声称 nvdiffrast 对所有场景都“全局最快”。实测范围及可复现实验见 [VALIDATION.md](VALIDATION.md) 和 `benchmark_renderer.py`。
+这是结合本项目硬件、mask 输出和梯度要求作出的工程选择。没有在同一环境安装并实测所有候选库，因此不声称 nvdiffrast 对所有场景都“全局最快”。实测范围及可复现实验见 [VALIDATION.md](VALIDATION.md) 和 `scripts/benchmark_renderer.py`。
 
 ## 论文及官方实现实际采用了什么
 
@@ -58,13 +58,13 @@ ResNet-34 → 受约束位姿 → Instrument-Splatting 正向运动学
 
 ## 复现与迁移
 
-实现固定于 nvdiffrast 0.4.0、源码提交 `253ac4fcea7de5f396371124af597e6cc957bfae`。Windows 项目本地工具链准备脚本为 `setup_nvdiffrast_windows.py`；NVIDIA/Microsoft 下载来源及哈希保存在 `.tools/provenance.json`。源码和依赖安装限制见各自随附许可证。
+实现固定于 nvdiffrast 0.4.0、源码提交 `253ac4fcea7de5f396371124af597e6cc957bfae`。Windows 项目本地工具链准备脚本为 `scripts/setup_nvdiffrast_windows.py`；NVIDIA/Microsoft 下载来源及哈希保存在 `.tools/provenance.json`。源码和依赖安装限制见各自随附许可证。
 
 默认渲染配置版本为 3。旧版或不同后端数据不能直接混合训练；生成新目录的数据并重新训练。推理允许加载旧权重作对比并提示不匹配，但旧权重结果不能作为新版训练精度结论。
 
 ```powershell
-& .\.venv\Scripts\python.exe inspect_renderer.py
-& .\.venv\Scripts\python.exe benchmark_renderer.py
+& .\.venv\Scripts\python.exe -m scripts.inspect_renderer
+& .\.venv\Scripts\python.exe -m scripts.benchmark_renderer
 & .\.venv\Scripts\python.exe -m pytest -q
 ```
 

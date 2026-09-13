@@ -15,7 +15,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 PARTS = ("shaft", "wrist", "gripper_left", "gripper_right")
 LABELS = (0, 1, 2, 2)
 
@@ -152,7 +152,7 @@ class InstrumentMesh(nn.Module):
             path = Path(mesh_dir) / f"transformed_{part}.obj"
             hashes[part] = hashlib.sha256(path.read_bytes()).hexdigest()
             if load_appearance:
-                from pose_appearance import load_material_mesh
+                from utils.pose_appearance import load_material_mesh
                 mesh,material_hashes = load_material_mesh(path)
                 self.appearance_hashes.update(material_hashes)
             else:

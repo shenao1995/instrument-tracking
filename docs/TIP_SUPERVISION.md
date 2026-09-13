@@ -29,7 +29,7 @@ mask 提取流程：裁剪腕部/夹爪区域，过滤小连通域，从腕部�
 
 ```powershell
 Set-Location E:\Work\pythonWorkplace\instrument-tracking
-& .\.venv\Scripts\python.exe -m pose_tip_labels --data data/synthetic_pose_v1 --preview data/synthetic_pose_v1/tip_label_audit.png
+& .\.venv\Scripts\python.exe -m utils.pose_tip_labels --data data/synthetic_pose_v1 --preview data/synthetic_pose_v1/tip_label_audit.png
 ```
 
 ## 输入尺寸与启动

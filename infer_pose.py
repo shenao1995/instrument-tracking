@@ -12,12 +12,12 @@ from PIL import Image
 import torch
 from torch.utils.data import DataLoader
 
-from pose_geometry import ROOT, InstrumentMesh, SemanticRenderer, detach_pose, load_calibration
-from pose_data import RealFrameDataset, SyntheticDataset, save_mask, to_device
-from pose_losses import part_iou, part_dice, tip_metrics
-from pose_tip_labels import prepare_tip_cache
-from pose_visualization import validation_images
-from poseNet import PoseNet, predict_stages
+from utils.pose_geometry import ROOT, InstrumentMesh, SemanticRenderer, detach_pose, load_calibration
+from utils.pose_data import RealFrameDataset, SyntheticDataset, save_mask, to_device
+from network.pose_losses import part_iou, part_dice, tip_metrics
+from utils.pose_tip_labels import prepare_tip_cache
+from utils.pose_visualization import validation_images
+from network.poseNet import PoseNet, predict_stages
 
 
 def build_parser():
@@ -249,8 +249,8 @@ def infer(args):
 @torch.inference_mode()
 def infer_video(args):
     import cv2
-    from pose_geometry import vector_pose
-    from pose_video import (VideoSource, open_video_writer, resize_intrinsics, video_comparison,
+    from utils.pose_geometry import vector_pose
+    from utils.pose_video import (VideoSource, open_video_writer, resize_intrinsics, video_comparison,
                             part_axis_anchors,part_axis_points,RollingFPS)
     if args.split == "val" or args.data or args.color_dir or args.no_render_output or args.mask_only:
         raise ValueError("Video mode uses --video and semantic masks; remove --split val/--data/--color-dir/--no-render-output/--mask-only")

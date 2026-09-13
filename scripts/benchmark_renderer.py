@@ -14,7 +14,7 @@ from PIL import Image
 from scipy.ndimage import binary_erosion
 import torch
 
-from pose_geometry import ROOT, InstrumentMesh, SemanticRenderer, load_calibration, vector_pose
+from utils.pose_geometry import ROOT, InstrumentMesh, SemanticRenderer, load_calibration, vector_pose
 
 CASES = [("torch_simplified_ss2","torch","simplified",2),
          ("nvdiffrast_simplified_ss2","nvdiffrast","simplified",2),

@@ -12,9 +12,8 @@ from PIL import Image
 import torch
 from torch.utils.data import Dataset
 
-from pose_geometry import axis_rotation, matrix_to_rotation_6d, vector_pose
-from pose_losses import extract_gripper_tips
-from pose_tip_labels import check_tip_labels, gripper_scale
+from utils.pose_geometry import axis_rotation, matrix_to_rotation_6d, vector_pose
+from utils.pose_tip_labels import check_tip_labels, gripper_scale, extract_gripper_tips
 
 
 def seed_everything(seed):
@@ -119,7 +118,7 @@ class SyntheticDataset(Dataset):
             # Preserve rendered appearance: random semantic colors or RGB
             # dropout would create inconsistent photometric supervision.
             if torch.rand(()) < .5:
-                from pose_geometry import pose_vector
+                from utils.pose_geometry import pose_vector
                 data["initial_vector"] = pose_vector(perturb_pose(data["pose_vector"][None]))[0]
         data["pose"] = vector_pose(data.pop("pose_vector"))
         data["initial_pose"] = vector_pose(data.pop("initial_vector"))

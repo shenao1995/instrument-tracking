@@ -1,4 +1,4 @@
-# Build helpers for setup_nvdiffrast_windows.py (runtime uses requirements.txt).
+# Build helpers for scripts/setup_nvdiffrast_windows.py (runtime uses requirements.txt).
 setuptools>=64
 wheel
 ninja>=1.11

@@ -11,8 +11,8 @@ import numpy as np
 from PIL import Image
 import torch
 
-from pose_data import read_mask, save_mask
-from pose_geometry import ROOT, InstrumentMesh, SemanticRenderer, load_calibration, vector_pose
+from utils.pose_data import read_mask, save_mask
+from utils.pose_geometry import ROOT, InstrumentMesh, SemanticRenderer, load_calibration, vector_pose
 
 
 @torch.inference_mode()

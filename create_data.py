@@ -9,9 +9,9 @@ import time
 import numpy as np
 import torch
 
-from pose_geometry import (ROOT, InstrumentMesh, SemanticRenderer, axis_rotation,
+from utils.pose_geometry import (ROOT, InstrumentMesh, SemanticRenderer, axis_rotation,
                            load_calibration, pose_vector, vector_pose, visible_tips)
-from pose_data import perturb_pose, save_mask, seed_everything
+from utils.pose_data import perturb_pose, save_mask, seed_everything
 
 
 def build_parser():
@@ -137,7 +137,7 @@ def generate(args):
 @torch.no_grad()
 def generate_video(args):
     import cv2
-    from pose_video import continuous_pose, open_video_writer
+    from utils.pose_video import continuous_pose, open_video_writer
     if (not np.isfinite([args.duration,args.fps,args.motion_rotation]).all() or
             args.duration <= 0 or args.fps <= 0 or not 0 <= args.motion_rotation <= 30):
         raise ValueError("Positive duration/FPS required; motion-rotation must be in [0,30] degrees")

@@ -6,6 +6,33 @@ A 15-second prediction demo: input frames on the left and predicted overlays on 
 
 The network estimates wrist pose and three joint angles from **six-channel paired masked RGB**: `concat(target RGB * target mask, moving RGB * moving mask)`. Each ResNet-34 stage refines the estimate, and nvdiffrast renders the predicted instrument through forward kinematics.
 
+## Project Layout
+
+```text
+instrument-tracking/
+|-- training_pose.py          # Training entry point
+|-- infer_pose.py             # Image and video inference entry point
+|-- create_data.py            # Synthetic data generation entry point
+|-- network/
+|   |-- poseNet.py            # Pose network and iterative refinement
+|   `-- pose_losses.py        # Training losses and evaluation metrics
+|-- utils/
+|   |-- pose_geometry.py      # Kinematics, camera geometry, and rendering
+|   |-- pose_appearance.py    # Mesh materials and appearance
+|   |-- pose_data.py          # Datasets and preprocessing
+|   |-- pose_tip_labels.py    # Tip extraction, supervision labels, and caches
+|   |-- pose_video.py         # Video I/O, motion, and overlays
+|   `-- pose_visualization.py # Validation visualizations
+|-- scripts/                  # Renderer setup, inspection, and benchmarks
+|-- docs/                     # Technical notes and demo assets
+|-- README.md
+|-- environment.yml
+|-- requirements.txt
+`-- requirements-renderer-windows.txt
+```
+
+The three main entry points run as before. Run auxiliary commands as modules from the project root, for example `python -m scripts.inspect_renderer`, `python -m scripts.benchmark_renderer`, or `python -m utils.pose_tip_labels --help`. Data, run outputs, and project-local build tools keep their existing root-level paths. The local test directory remains excluded from Git.
+
 ## Installation with Conda
 
 The setup below uses **Python 3.10 and CUDA 12.6 PyTorch**. The default nvdiffrast renderer requires an NVIDIA GPU, a compatible driver, and CUDA/C++ build tools. CPU-only PyTorch cannot run the default training pipeline. Conda manages the Python environment; install the remaining packages with pip after activation.
@@ -29,7 +56,7 @@ This PyTorch/torchvision pair matches the original project environment. These in
 python -m pip install -r requirements-renderer-windows.txt
 # Detect the current GPU architecture. Set a semicolon-separated list for multiple architectures.
 $env:TORCH_CUDA_ARCH_LIST = python -c "import torch; print('.'.join(map(str, torch.cuda.get_device_capability())))"
-python setup_nvdiffrast_windows.py
+python -m scripts.setup_nvdiffrast_windows
 ```
 
 **Linux, or Windows with an existing CUDA/C++ toolchain:** install a CUDA Toolkit containing nvcc that matches the PyTorch CUDA version. Windows also requires MSVC C++ Build Tools and the Windows SDK. Then install the pinned renderer revision:
@@ -190,14 +217,14 @@ These conventions follow the [Instrument-Splatting kinematics](https://github.co
 
 ## Diagnostics and Reference Notes
 
-`inspect_renderer.py` and `benchmark_renderer.py` inspect mask rendering by default. Inspect generated `preview/*_rgb.png` files and validation visualizations for RGB appearance. The Windows setup script records download sources and hashes in `.tools/provenance.json` without modifying the global driver or PATH.
+`scripts/inspect_renderer.py` and `scripts/benchmark_renderer.py` inspect mask rendering by default. Inspect generated `preview/*_rgb.png` files and validation visualizations for RGB appearance. The Windows setup script records download sources and hashes in `.tools/provenance.json` without modifying the global driver or PATH.
 
 Historical technical notes are retained in their original language:
 
-- [Renderer research](RENDERER_RESEARCH.md)
-- [Tip supervision and validation](TIP_SUPERVISION.md)
-- [Historical RGB training validation](RGB_TRAINING_VALIDATION.md)
-- [Historical mask validation](VALIDATION.md)
-- [Video validation](VIDEO_VALIDATION.md)
+- [Renderer research](docs/RENDERER_RESEARCH.md)
+- [Tip supervision and validation](docs/TIP_SUPERVISION.md)
+- [Historical RGB training validation](docs/RGB_TRAINING_VALIDATION.md)
+- [Historical mask validation](docs/VALIDATION.md)
+- [Video validation](docs/VIDEO_VALIDATION.md)
 
 A local development copy containing `tests/` can run `python -m pytest -q`. The test directory is excluded from this repository.
